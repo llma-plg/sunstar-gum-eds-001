@@ -82,7 +82,7 @@ function renderProducts(block, products, bridge) {
     btn.textContent = 'View Details';
     if (bridge) {
       btn.addEventListener('click', () => {
-        bridge.callTool('get-product-details', { product_name: product.name });
+        bridge.sendMessage(`Use get-product-details to show full details for "${product.name}"`);
       });
     }
     card.appendChild(btn);
