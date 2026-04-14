@@ -176,17 +176,19 @@ main .search-products .cta-btn:focus-visible {
 
 /* === DARK MODE — media query for standalone EDS preview === */
 @media (prefers-color-scheme: dark) {
-  main .search-products .card {
-    background: #1e1e1e;
-    border-color: #333;
+  body {
+    background: transparent;
+  }
+
+  main .search-products {
+    --widget-surface: #1e1e1e;
+    --widget-border: #333;
+    --widget-secondary: #aaa;
+    color: #eee;
   }
 
   main .search-products .card-img {
     background: #2a2a2a;
-  }
-
-  main .search-products .card-desc {
-    color: #aaa;
   }
 
   main .search-products .card-title {
@@ -199,17 +201,19 @@ main .search-products .cta-btn:focus-visible {
 }
 
 /* === DARK MODE — body.dark class for Shadow DOM inside ChatGPT === */
-body.dark main .search-products .card {
-  background: #1e1e1e;
-  border-color: #333;
+body.dark {
+  background: transparent;
+}
+
+body.dark main .search-products {
+  --widget-surface: #1e1e1e;
+  --widget-border: #333;
+  --widget-secondary: #aaa;
+  color: #eee;
 }
 
 body.dark main .search-products .card-img {
   background: #2a2a2a;
-}
-
-body.dark main .search-products .card-desc {
-  color: #aaa;
 }
 
 body.dark main .search-products .card-title {

@@ -162,17 +162,19 @@ main .find-where-to-buy .cta-btn:focus-visible {
 
 /* 1. Media query: for standalone EDS preview (localhost:3000 / aem.page) */
 @media (prefers-color-scheme: dark) {
+  body {
+    background: transparent;
+  }
+
+  main .find-where-to-buy {
+    --widget-surface: #1e1e1e;
+    --widget-border: #333;
+    --widget-secondary: #aaa;
+    color: #eee;
+  }
+
   main .find-where-to-buy .wtb-header h3 {
     color: #f0f0f0;
-  }
-
-  main .find-where-to-buy .wtb-subtitle {
-    color: #aaa;
-  }
-
-  main .find-where-to-buy .retailer-card {
-    background: #1e1e1e;
-    border-color: #333;
   }
 
   main .find-where-to-buy .retailer-name {
@@ -191,17 +193,19 @@ main .find-where-to-buy .cta-btn:focus-visible {
 }
 
 /* 2. body.dark class: for Shadow DOM inside ChatGPT (set by aem-embed.js) */
+body.dark {
+  background: transparent;
+}
+
+body.dark main .find-where-to-buy {
+  --widget-surface: #1e1e1e;
+  --widget-border: #333;
+  --widget-secondary: #aaa;
+  color: #eee;
+}
+
 body.dark main .find-where-to-buy .wtb-header h3 {
   color: #f0f0f0;
-}
-
-body.dark main .find-where-to-buy .wtb-subtitle {
-  color: #aaa;
-}
-
-body.dark main .find-where-to-buy .retailer-card {
-  background: #1e1e1e;
-  border-color: #333;
 }
 
 body.dark main .find-where-to-buy .retailer-name {

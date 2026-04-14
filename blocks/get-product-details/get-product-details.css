@@ -151,16 +151,19 @@ main .get-product-details .cta-btn:focus-visible {
 /* === DARK MODE — dual strategy (both required) === */
 /* 1. Media query: for standalone EDS preview */
 @media (prefers-color-scheme: dark) {
+  body {
+    background: transparent;
+  }
+
+  main .get-product-details {
+    --widget-surface: #1e1e1e;
+    --widget-border: #333;
+    --widget-secondary-text: #aaa;
+    color: #eee;
+  }
+
   main .get-product-details h3 {
     color: #f0f0f0;
-  }
-
-  main .get-product-details .detail-description {
-    color: #aaa;
-  }
-
-  main .get-product-details .feature-list li {
-    color: #aaa;
   }
 
   main .get-product-details .detail-image img {
@@ -169,16 +172,19 @@ main .get-product-details .cta-btn:focus-visible {
 }
 
 /* 2. body.dark class: for Shadow DOM inside ChatGPT */
+body.dark {
+  background: transparent;
+}
+
+body.dark main .get-product-details {
+  --widget-surface: #1e1e1e;
+  --widget-border: #333;
+  --widget-secondary-text: #aaa;
+  color: #eee;
+}
+
 body.dark main .get-product-details h3 {
   color: #f0f0f0;
-}
-
-body.dark main .get-product-details .detail-description {
-  color: #aaa;
-}
-
-body.dark main .get-product-details .feature-list li {
-  color: #aaa;
 }
 
 body.dark main .get-product-details .detail-image img {

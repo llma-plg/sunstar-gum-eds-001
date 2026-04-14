@@ -86,6 +86,24 @@ body.appear {
   display: block;
 }
 
+/* Dark mode for widget iframes (ChatGPT / standalone) */
+@media (prefers-color-scheme: dark) {
+  :root,
+  :host {
+    --background-color: transparent;
+    --text-color: #eee;
+    --light-color: #2a2a2a;
+    --dark-color: #aaa;
+  }
+}
+
+body.dark {
+  --background-color: transparent;
+  --text-color: #eee;
+  --light-color: #2a2a2a;
+  --dark-color: #aaa;
+}
+
 header {
   height: var(--nav-height);
 }
