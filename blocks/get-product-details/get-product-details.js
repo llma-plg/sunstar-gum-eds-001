@@ -4,7 +4,7 @@ const SAMPLE_DATA = {
   name: 'GUM\u00ae Deep Clean Technique\u00ae Toothbrush',
   description: 'The GUM\u00ae Deep Clean Technique\u00ae Toothbrush features ultra-fine tapered bristles that penetrate deep below the gumline to remove plaque bacteria that cause gum disease. The patented Quad-Grip\u00ae handle naturally guides your hand to the proper brushing angle, promoting the technique recommended by dental professionals.',
   category: 'toothbrushes',
-  image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-technique-deep-clean-toothbrush/gum-technique-deep-clean-toothbrush.png',
+  image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--0a295760-5530-4008-a103-a99e6f050496/00070942125895-524-hero.jpg?width=480&preferwebp=true&quality=85',
   features: [
     'Ultra-fine tapered bristles brush below the gumline',
     'Quad-Grip\u00ae handle promotes perfect brushing technique',
@@ -16,7 +16,7 @@ const SAMPLE_DATA = {
   related_products: [
     {
       name: 'GUM\u00ae Sensitive Clean Technique\u00ae Toothbrush',
-      image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-technique-sensitive-clean-toothbrush/gum-technique-sensitive-clean-toothbrush.png',
+      image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--cc09aad6-d5b1-4c20-883f-604a8809cf15/00070942007412-hero.jpg?width=480&preferwebp=true&quality=85',
       url: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-technique-sensitive-clean-toothbrush.html',
     },
     {

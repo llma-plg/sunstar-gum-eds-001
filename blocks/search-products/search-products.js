@@ -9,31 +9,31 @@ const SAMPLE_DATA = [
     name: 'GUM\u00ae Deep Clean Technique\u00ae Toothbrush',
     description: 'Ultra-fine tapered bristles provide a deeper clean below the gumline. Quad-Grip\u00ae handle promotes perfect brushing technique.',
     category: 'toothbrushes',
-    image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-technique-deep-clean-toothbrush/gum-technique-deep-clean-toothbrush.png',
+    image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--0a295760-5530-4008-a103-a99e6f050496/00070942125895-524-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
     name: 'GUM\u00ae Sensitive Clean Technique\u00ae Toothbrush',
     description: 'Gentle bristles designed for sensitive gums. Quad-Grip\u00ae handle for optimal brushing technique.',
     category: 'toothbrushes',
-    image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-technique-sensitive-clean-toothbrush/gum-technique-sensitive-clean-toothbrush.png',
+    image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--cc09aad6-d5b1-4c20-883f-604a8809cf15/00070942007412-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
     name: 'GUM\u00ae Sonic Powered Toothbrush',
     description: 'Powerful sonic technology for a thorough clean. Removes more plaque than a manual toothbrush.',
     category: 'toothbrushes',
-    image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-sonic-power-toothbrush-gum-health/gum-sonic-power-toothbrush-gum-health.png',
+    image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--f5ccd9db-10f3-4785-8550-f70405cb29bf/00070942005432-4100-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
     name: 'GUM\u00ae Crayola\u2122 Kids\' Twistables\u2122 Flossers',
     description: 'Fun Crayola-themed flossers make flossing exciting for kids. Easy-grip handle designed for small hands.',
     category: 'dental-floss',
-    image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/dental-floss/gum-crayola-twistables-flossers/gum-crayola-twistables-flossers.png',
+    image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--35c1f8d8-d82e-4928-bf3a-085bb9b9feb8/859rq-product-packaging-flossers-crayols-twistables-hero-cleanedup-us.jpg?width=480&preferwebp=true&quality=85',
   },
   {
     name: 'GUM\u00ae Soft-Picks\u00ae Original',
     description: 'Flexible rubber bristles gently clean between teeth. Comfortable and easy to use.',
     category: 'interdental',
-    image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/interdental-cleaners/gum-soft-picks-original-dental-picks/gum-soft-picks-original-dental-picks.png',
+    image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--a9a60fce-c215-4647-93d2-af40c8df6ae0/6323r-product-packaging-btc-softpicks-original-hero-cleanedup-us.jpg?width=480&preferwebp=true&quality=85',
   },
 ];
 
