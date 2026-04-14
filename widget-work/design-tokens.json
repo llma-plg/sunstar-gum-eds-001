@@ -1,0 +1,15 @@
+{
+  "accent": "#2563eb",
+  "accentText": "#ffffff",
+  "surface": "#ffffff",
+  "border": "#e0e0e0",
+  "radius": "0.5rem",
+  "fontWeightHeading": "600",
+  "letterSpacing": "normal",
+  "textTransform": "none",
+  "btnTransition": "opacity 0.15s ease",
+  "secondaryAccent": "#555555",
+  "decorativeAccent": "#6699cc",
+  "fallback": true,
+  "notes": "Derived from PALETTE array. Sunstar GUM site uses clean white background, blue accent buttons, gray secondary text. No Playwright extraction available."
+}

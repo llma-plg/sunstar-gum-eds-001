@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-:root {
+:root,
+:host {
   /* colors */
   --background-color: white;
   --light-color: #f8f8f8;
@@ -54,7 +55,8 @@
 }
 
 @media (width >= 900px) {
-  :root {
+  :root,
+  :host {
     /* body sizes */
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;

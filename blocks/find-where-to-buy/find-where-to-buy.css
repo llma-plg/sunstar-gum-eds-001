@@ -1,0 +1,226 @@
+/* === AEM SECTION RESET — required for correct iframe sizing === */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+
+/* === BRAND TOKENS === */
+/* Source: widget-work/design-tokens.json (fallback: true, from PALETTE) */
+main .find-where-to-buy {
+  --widget-accent: #2563eb;
+  --widget-accent-text: #fff;
+  --widget-surface: #fff;
+  --widget-border: #e0e0e0;
+  --widget-radius: 0.5rem;
+  --widget-fw-heading: 600;
+  --widget-letter-spacing: normal;
+  --widget-btn-transform: none;
+  --widget-btn-transition: opacity 0.15s ease;
+  --widget-secondary: #555555;
+  --widget-decorative: #6699cc;
+}
+
+/* === LAYOUT === */
+main .find-where-to-buy {
+  font-family: inherit;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* === HEADER === */
+main .find-where-to-buy .wtb-header {
+  margin-bottom: 0.625rem;
+}
+
+main .find-where-to-buy .wtb-header h3 {
+  margin: 0 0 0.125rem;
+  font-size: 0.9375rem;
+  font-weight: var(--widget-fw-heading);
+  letter-spacing: var(--widget-letter-spacing);
+  line-height: 1.3;
+  color: var(--text-color, #1a1a1a);
+}
+
+main .find-where-to-buy .wtb-subtitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--widget-secondary);
+}
+
+/* === RETAILER LIST === */
+main .find-where-to-buy .retailer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* === RETAILER CARD === */
+main .find-where-to-buy .retailer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--widget-surface);
+  border: 1px solid var(--widget-border);
+  border-radius: var(--widget-radius);
+  transition: border-color 0.15s ease;
+}
+
+main .find-where-to-buy .retailer-card:hover {
+  border-color: var(--widget-decorative);
+}
+
+/* === RETAILER INFO === */
+main .find-where-to-buy .retailer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+}
+
+main .find-where-to-buy .retailer-name {
+  font-size: 0.875rem;
+  font-weight: var(--widget-fw-heading);
+  line-height: 1.3;
+  color: var(--text-color, #1a1a1a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === BADGE === */
+main .find-where-to-buy .retailer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 0.25rem;
+  width: fit-content;
+}
+
+main .find-where-to-buy .retailer-badge .badge-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+main .find-where-to-buy .retailer-badge--online {
+  background: #eef4ff;
+  color: var(--widget-accent);
+}
+
+main .find-where-to-buy .retailer-badge--both {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+/* === CTA BUTTON === */
+main .find-where-to-buy .cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 0.75rem;
+  background: var(--widget-accent);
+  color: var(--widget-accent-text);
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: var(--widget-fw-heading);
+  letter-spacing: var(--widget-letter-spacing);
+  text-transform: var(--widget-btn-transform);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--widget-btn-transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+main .find-where-to-buy .cta-btn:hover {
+  opacity: 0.85;
+}
+
+main .find-where-to-buy .cta-btn:focus-visible {
+  outline: 2px solid var(--widget-accent);
+  outline-offset: 2px;
+}
+
+/* === DARK MODE — dual strategy (both required) === */
+
+/* 1. Media query: for standalone EDS preview (localhost:3000 / aem.page) */
+@media (prefers-color-scheme: dark) {
+  main .find-where-to-buy .wtb-header h3 {
+    color: #f0f0f0;
+  }
+
+  main .find-where-to-buy .wtb-subtitle {
+    color: #aaa;
+  }
+
+  main .find-where-to-buy .retailer-card {
+    background: #1e1e1e;
+    border-color: #333;
+  }
+
+  main .find-where-to-buy .retailer-name {
+    color: #f0f0f0;
+  }
+
+  main .find-where-to-buy .retailer-badge--online {
+    background: rgba(37, 99, 235, 0.15);
+    color: #60a5fa;
+  }
+
+  main .find-where-to-buy .retailer-badge--both {
+    background: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
+  }
+}
+
+/* 2. body.dark class: for Shadow DOM inside ChatGPT (set by aem-embed.js) */
+body.dark main .find-where-to-buy .wtb-header h3 {
+  color: #f0f0f0;
+}
+
+body.dark main .find-where-to-buy .wtb-subtitle {
+  color: #aaa;
+}
+
+body.dark main .find-where-to-buy .retailer-card {
+  background: #1e1e1e;
+  border-color: #333;
+}
+
+body.dark main .find-where-to-buy .retailer-name {
+  color: #f0f0f0;
+}
+
+body.dark main .find-where-to-buy .retailer-badge--online {
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
+}
+
+body.dark main .find-where-to-buy .retailer-badge--both {
+  background: rgba(22, 163, 74, 0.15);
+  color: #4ade80;
+}
+
+/* === RESPONSIVE === */
+@media (width >= 480px) {
+  main .find-where-to-buy .retailer-card {
+    padding: 0.5rem 0.875rem;
+  }
+}
