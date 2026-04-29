@@ -37,113 +37,119 @@ main .find-where-to-buy {
   background: transparent;
 }
 
-.gum-wtb-wrapper {
+.gum-stores-wrapper {
   max-width: 100%;
 }
 
-/* === HEADER === */
-.gum-wtb-header {
+/* Location header */
+.gum-stores-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
 }
 
-.gum-wtb-pin-icon {
+.gum-stores-pin-icon {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
 }
 
-.gum-wtb-title {
+.gum-stores-title {
   font-size: 18px;
   font-weight: 700;
   color: var(--gum-text-dark);
   margin: 0;
 }
 
-.gum-wtb-count {
+.gum-stores-count {
   font-size: 13px;
   color: var(--gum-text-muted);
   margin-left: auto;
 }
 
-/* === GRID === */
-.gum-wtb-grid {
+/* Store cards grid */
+.gum-stores-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-/* === RETAILER CARD === */
-.gum-retailer-card {
+.gum-store-card {
   background: var(--gum-card-bg);
   border: 1px solid var(--gum-border);
   border-radius: 12px;
   padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
   transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.gum-retailer-card:hover {
+.gum-store-card:hover {
   box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
   transform: translateY(-3px);
 }
 
-.gum-retailer-top {
+.gum-store-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 8px;
 }
 
-.gum-retailer-name {
+.gum-store-name {
   font-size: 15px;
   font-weight: 700;
   color: var(--gum-text-dark);
   margin: 0;
 }
 
-/* === BADGE === */
-.gum-retailer-badge {
+.gum-store-distance {
   flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
   padding: 3px 10px;
+  background: var(--gum-green-light);
+  color: var(--gum-green);
   font-size: 11px;
   font-weight: 700;
   border-radius: 20px;
   white-space: nowrap;
 }
 
-.gum-badge-icon {
-  display: inline-flex;
+.gum-store-address {
+  font-size: 13px;
+  color: var(--gum-text-body);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.gum-store-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gum-store-meta-row {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gum-text-muted);
 }
 
-.gum-retailer-type-icon {
-  width: 12px;
-  height: 12px;
+.gum-store-meta-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.6;
 }
 
-.gum-retailer-badge--online {
-  background: #eef4ff;
-  color: #2563eb;
-}
-
-.gum-retailer-badge--both {
-  background: var(--gum-green-light);
-  color: var(--gum-green);
-}
-
-/* === ACTIONS === */
-.gum-retailer-actions {
+.gum-store-actions {
   display: flex;
   gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
 .gum-store-btn,
@@ -165,6 +171,13 @@ main .find-where-to-buy {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
+}
+
+.gum-store-btn-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .gum-store-btn:hover {
@@ -172,8 +185,32 @@ main .find-where-to-buy {
   box-shadow: 0 2px 8px rgb(0 146 87 / 30%);
 }
 
-/* === EMPTY STATE === */
-.gum-wtb-empty {
+.gum-store-btn-outline,
+.gum-store-btn-outline:visited,
+.gum-store-btn-outline:link {
+  flex: 1;
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--gum-green);
+  border: 1.5px solid var(--gum-green);
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+
+.gum-store-btn-outline:hover {
+  background: var(--gum-green);
+  color: #fff;
+}
+
+/* Empty */
+.gum-stores-empty {
   padding: 32px;
   text-align: center;
   color: var(--gum-text-muted);
@@ -192,15 +229,11 @@ main .find-where-to-buy {
     --gum-text-dark: #eee;
     --gum-text-body: #bbb;
     --gum-text-muted: #aaa;
+    --gum-bg: #1e1e1e;
     color: #eee;
   }
 
-  .gum-retailer-badge--online {
-    background: rgba(37, 99, 235, 0.15);
-    color: #60a5fa;
-  }
-
-  .gum-retailer-badge--both {
+  .gum-store-distance {
     background: rgba(0, 146, 87, 0.15);
     color: #4ade80;
   }
@@ -217,26 +250,23 @@ body.dark main .find-where-to-buy {
   --gum-text-dark: #eee;
   --gum-text-body: #bbb;
   --gum-text-muted: #aaa;
+  --gum-bg: #1e1e1e;
   color: #eee;
 }
 
-body.dark .gum-retailer-badge--online {
-  background: rgba(37, 99, 235, 0.15);
-  color: #60a5fa;
-}
-
-body.dark .gum-retailer-badge--both {
+body.dark .gum-store-distance {
   background: rgba(0, 146, 87, 0.15);
   color: #4ade80;
 }
 
-/* === RESPONSIVE === */
+/* Responsive */
 @media (max-width: 560px) {
-  .gum-wtb-grid {
+  .gum-stores-grid {
     grid-template-columns: 1fr;
   }
 
-  .gum-store-btn {
+  .gum-store-btn,
+  .gum-store-btn-outline {
     width: 100%;
     text-align: center;
   }

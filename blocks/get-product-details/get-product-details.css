@@ -26,6 +26,8 @@ main .get-product-details {
   --gum-bg: #fff;
   --gum-card-bg: #fff;
   --gum-border: #e5e7eb;
+  --gum-star: #2bb573;
+  --gum-star-empty: #d1d5db;
   --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   width: 100%;
@@ -37,7 +39,7 @@ main .get-product-details {
   background: transparent;
 }
 
-/* === CARD === */
+/* Main card wrapper */
 .gum-detail-card {
   background: var(--gum-card-bg);
   border: 1px solid var(--gum-border);
@@ -46,7 +48,7 @@ main .get-product-details {
   box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
 }
 
-/* === HERO: image left, info right === */
+/* Hero: image left, info right */
 .gum-detail-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -98,6 +100,32 @@ main .get-product-details {
   margin: 0;
 }
 
+.gum-detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gum-detail-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.gum-detail-star {
+  width: 16px;
+  height: 16px;
+}
+
+.gum-detail-rating-text {
+  font-size: 13px;
+  color: var(--gum-text-muted);
+}
+
+.gum-detail-sku {
+  font-size: 11px;
+  color: var(--gum-text-muted);
+}
+
 .gum-detail-description {
   font-size: 14px;
   color: var(--gum-text-body);
@@ -105,7 +133,7 @@ main .get-product-details {
   margin: 4px 0 0;
 }
 
-/* === FEATURES === */
+/* Features */
 .gum-detail-features {
   list-style: none;
   padding: 0;
@@ -131,7 +159,43 @@ main .get-product-details {
   font-weight: bold;
 }
 
-/* === CTAs === */
+/* Highlights section */
+.gum-detail-highlights {
+  border-top: 1px solid var(--gum-border);
+}
+
+.gum-detail-highlights-title {
+  padding: 12px 24px;
+  background: var(--gum-bg);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gum-text-dark);
+  margin: 0;
+}
+
+.gum-highlight-item {
+  padding: 12px 24px;
+  border-top: 1px solid var(--gum-border);
+}
+
+.gum-highlight-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gum-green);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+}
+
+.gum-highlight-text {
+  font-size: 13px;
+  color: var(--gum-text-body);
+  line-height: 1.5;
+}
+
+/* CTA */
 .gum-detail-cta {
   padding: 16px 24px;
   border-top: 1px solid var(--gum-border);
@@ -175,7 +239,7 @@ main .get-product-details {
   color: #fff;
 }
 
-/* === ERROR === */
+/* Error */
 .gum-detail-error {
   padding: 24px;
   text-align: center;
@@ -195,6 +259,7 @@ main .get-product-details {
     --gum-text-dark: #eee;
     --gum-text-body: #bbb;
     --gum-text-muted: #aaa;
+    --gum-bg: #1e1e1e;
     color: #eee;
   }
 
@@ -214,6 +279,7 @@ body.dark main .get-product-details {
   --gum-text-dark: #eee;
   --gum-text-body: #bbb;
   --gum-text-muted: #aaa;
+  --gum-bg: #1e1e1e;
   color: #eee;
 }
 
@@ -221,7 +287,7 @@ body.dark .gum-detail-image {
   background: #2a2a2a;
 }
 
-/* === RESPONSIVE === */
+/* Responsive */
 @media (max-width: 600px) {
   .gum-detail-hero {
     grid-template-columns: 1fr;

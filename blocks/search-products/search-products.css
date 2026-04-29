@@ -23,6 +23,8 @@ main .search-products {
   --gum-bg: #fff;
   --gum-card-bg: #fff;
   --gum-border: #e5e7eb;
+  --gum-star: #2bb573;
+  --gum-star-empty: #d1d5db;
   --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   width: 100%;
@@ -53,7 +55,7 @@ main .search-products {
   display: none;
 }
 
-/* === NAVIGATION ARROWS === */
+/* Navigation arrows */
 .gum-carousel-arrow {
   position: absolute;
   top: 50%;
@@ -98,7 +100,7 @@ main .search-products {
   pointer-events: none;
 }
 
-/* === PRODUCT CARD === */
+/* Product card */
 .gum-product-card {
   flex: 0 0 230px;
   scroll-snap-align: start;
@@ -162,6 +164,28 @@ main .search-products {
   letter-spacing: 0.02em;
 }
 
+.gum-product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gum-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.gum-star {
+  width: 16px;
+  height: 16px;
+}
+
+.gum-rating-text {
+  font-size: 11px;
+  color: var(--gum-text-muted);
+  margin-left: 2px;
+}
+
 .gum-product-cta {
   padding: 7px 20px;
   background: var(--gum-green);
@@ -181,7 +205,7 @@ main .search-products {
   box-shadow: 0 2px 8px rgb(0 146 87 / 30%);
 }
 
-/* === EMPTY STATE === */
+/* Empty state */
 .gum-products-empty {
   padding: 32px;
   text-align: center;
@@ -225,7 +249,7 @@ body.dark .gum-product-image-wrap {
   background: #2a2a2a;
 }
 
-/* === RESPONSIVE === */
+/* Responsive */
 @media (max-width: 480px) {
   .gum-product-card {
     flex: 0 0 180px;

@@ -1,8 +1,13 @@
 const SAMPLE_DATA = {
+  productId: 'GUM-524',
   name: 'GUM® Deep Clean Technique® Toothbrush',
-  description: 'The GUM® Deep Clean Technique® Toothbrush features ultra-fine tapered bristles that penetrate deep below the gumline to remove plaque bacteria that cause gum disease. The patented Quad-Grip® handle naturally guides your hand to the proper brushing angle, promoting the technique recommended by dental professionals.',
-  category: 'toothbrushes',
-  image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--0a295760-5530-4008-a103-a99e6f050496/00070942125895-524-hero.jpg?width=480&preferwebp=true&quality=85',
+  sku: '524',
+  category: 'Toothbrushes',
+  subcategory: 'Manual / Adult',
+  rating: 4.5,
+  reviewCount: 42,
+  recommendPercent: 93,
+  description: 'The GUM® Deep Clean Technique® Toothbrush features ultra-fine tapered bristles that penetrate deep below the gumline to remove plaque bacteria that cause gum disease. The patented Quad-Grip® handle naturally guides your hand to the proper brushing angle.',
   features: [
     'Ultra-fine tapered bristles brush below the gumline',
     'Quad-Grip® handle promotes perfect brushing technique',
@@ -10,27 +15,33 @@ const SAMPLE_DATA = {
     'Compact head reaches back teeth easily',
     'Recommended by dental professionals',
   ],
-  url: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-technique-deep-clean-toothbrush.html',
-  related_products: [
-    {
-      name: 'GUM® Sensitive Clean Technique® Toothbrush',
-      image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--cc09aad6-d5b1-4c20-883f-604a8809cf15/00070942007412-hero.jpg?width=480&preferwebp=true&quality=85',
-      url: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-technique-sensitive-clean-toothbrush.html',
-    },
-    {
-      name: 'GUM® Enamel Clean TECHNIQUE® Toothbrush',
-      image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-technique-enamel-clean-toothbrush/gum-technique-enamel-clean-toothbrush.png',
-      url: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-technique-enamel-clean-toothbrush.html',
-    },
-    {
-      name: 'GUM® Multi-Clean Toothbrush',
-      image_url: 'https://www.sunstargum.com/content/dam/gum/us-en/products/toothbrushes/gum-multiclean-toothbrush/gum-multiclean-toothbrush.png',
-      url: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-multiclean-toothbrush.html',
-    },
+  highlights: [
+    { label: 'GUM® DEEP CLEAN TECHNIQUE® TOOTHBRUSH', text: 'Engineered with ultra-fine tapered bristles that penetrate deep below the gumline to remove hidden plaque bacteria.' },
+    { label: 'SOFT BRISTLES', text: 'GUM® Deep Clean toothbrushes come with soft bristles safe for sensitive gums and enamel.' },
   ],
+  ratings: { quality: 4.3, value: 4.4, purchase: 4.9, performance: 4.6 },
+  imageUrl: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--0a295760-5530-4008-a103-a99e6f050496/00070942125895-524-hero.jpg?width=480&preferwebp=true&quality=85',
+  productUrl: 'https://www.sunstargum.com/us-en/products/toothbrushes/gum-technique-deep-clean-toothbrush.html',
 };
 
+function createStarsSVG(rating, size = 16) {
+  const stars = [];
+  for (let i = 1; i <= 5; i += 1) {
+    const filled = i <= Math.round(rating);
+    const color = filled ? '#2bb573' : '#d1d5db';
+    stars.push(`<svg class="gum-detail-star" width="${size}" height="${size}" viewBox="0 0 20 20" fill="${color}"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.176 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.063 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/></svg>`);
+  }
+  return stars.join('');
+}
+
 export default async function decorate(block, bridge) {
+  block.textContent = '';
+
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.textContent = 'Loading product details…';
+  block.appendChild(loading);
+
   let product;
 
   if (bridge) {
@@ -39,32 +50,38 @@ export default async function decorate(block, bridge) {
     if (isPreview) {
       product = SAMPLE_DATA;
     } else {
-      const { structuredContent } = await bridge.toolResult;
-      product = structuredContent || {};
+      try {
+        const result = await bridge.toolResult;
+        const sc = result?.structuredContent || result;
+        product = sc?.product;
+      } catch (e) {
+        console.warn('[get-product-details] Could not get tool data', e);
+      }
     }
   } else {
     product = SAMPLE_DATA;
   }
 
-  block.textContent = '';
-
-  if (!product || !product.name) {
+  if (!product) {
+    block.textContent = '';
     block.innerHTML = '<p class="gum-detail-error">Product details not available.</p>';
     return;
   }
 
+  block.textContent = '';
+
   const card = document.createElement('div');
   card.className = 'gum-detail-card';
 
-  // Hero section: image left, info right
+  // Hero section
   const hero = document.createElement('div');
   hero.className = 'gum-detail-hero';
 
   const imageWrap = document.createElement('div');
   imageWrap.className = 'gum-detail-image';
   const img = document.createElement('img');
-  img.src = product.image_url || '';
-  img.alt = product.name || 'Product image';
+  img.src = product.imageUrl;
+  img.alt = product.name;
   img.loading = 'eager';
   img.addEventListener('load', () => img.classList.add('loaded'));
   imageWrap.appendChild(img);
@@ -72,39 +89,84 @@ export default async function decorate(block, bridge) {
   const info = document.createElement('div');
   info.className = 'gum-detail-info';
 
-  if (product.category) {
-    const category = document.createElement('span');
-    category.className = 'gum-detail-category';
-    category.textContent = product.category.replace(/-/g, ' ');
-    info.appendChild(category);
-  }
+  const category = document.createElement('span');
+  category.className = 'gum-detail-category';
+  category.textContent = `${product.category} / ${product.subcategory}`;
 
   const name = document.createElement('h2');
   name.className = 'gum-detail-name';
   name.textContent = product.name;
+
+  const ratingWrap = document.createElement('div');
+  ratingWrap.className = 'gum-detail-rating';
+  const stars = document.createElement('span');
+  stars.className = 'gum-detail-stars';
+  stars.innerHTML = createStarsSVG(product.rating);
+  const ratingText = document.createElement('span');
+  ratingText.className = 'gum-detail-rating-text';
+  ratingText.textContent = `${product.rating}/5 (${product.reviewCount} reviews)`;
+  if (product.recommendPercent) {
+    ratingText.textContent += ` • ${product.recommendPercent}% recommend`;
+  }
+  ratingWrap.appendChild(stars);
+  ratingWrap.appendChild(ratingText);
+
+  const sku = document.createElement('span');
+  sku.className = 'gum-detail-sku';
+  sku.textContent = `SKU: ${product.sku}`;
+
+  const desc = document.createElement('p');
+  desc.className = 'gum-detail-description';
+  desc.textContent = product.description;
+
+  const featuresList = document.createElement('ul');
+  featuresList.className = 'gum-detail-features';
+  (product.features || []).forEach((f) => {
+    const li = document.createElement('li');
+    li.textContent = f;
+    featuresList.appendChild(li);
+  });
+
+  info.appendChild(category);
   info.appendChild(name);
-
-  if (product.description) {
-    const desc = document.createElement('p');
-    desc.className = 'gum-detail-description';
-    desc.textContent = product.description;
-    info.appendChild(desc);
-  }
-
-  if (product.features && product.features.length > 0) {
-    const featuresList = document.createElement('ul');
-    featuresList.className = 'gum-detail-features';
-    product.features.forEach((f) => {
-      const li = document.createElement('li');
-      li.textContent = f;
-      featuresList.appendChild(li);
-    });
-    info.appendChild(featuresList);
-  }
+  info.appendChild(ratingWrap);
+  info.appendChild(sku);
+  info.appendChild(desc);
+  info.appendChild(featuresList);
 
   hero.appendChild(imageWrap);
   hero.appendChild(info);
   card.appendChild(hero);
+
+  // Highlights
+  if (product.highlights && product.highlights.length > 0) {
+    const highlights = document.createElement('div');
+    highlights.className = 'gum-detail-highlights';
+
+    const hlTitle = document.createElement('h3');
+    hlTitle.className = 'gum-detail-highlights-title';
+    hlTitle.textContent = 'Product Highlights';
+    highlights.appendChild(hlTitle);
+
+    product.highlights.forEach((hl) => {
+      const item = document.createElement('div');
+      item.className = 'gum-highlight-item';
+
+      const label = document.createElement('div');
+      label.className = 'gum-highlight-label';
+      label.textContent = hl.label;
+
+      const text = document.createElement('div');
+      text.className = 'gum-highlight-text';
+      text.textContent = hl.text;
+
+      item.appendChild(label);
+      item.appendChild(text);
+      highlights.appendChild(item);
+    });
+
+    card.appendChild(highlights);
+  }
 
   // CTAs
   const ctaWrap = document.createElement('div');
@@ -123,8 +185,8 @@ export default async function decorate(block, bridge) {
   visitBtn.className = 'gum-btn-outline';
   visitBtn.textContent = 'View on GUM Website';
   visitBtn.addEventListener('click', () => {
-    if (bridge && product.url) {
-      bridge.openLink(product.url);
+    if (bridge && product.productUrl) {
+      bridge.openLink(product.productUrl);
     }
   });
 
