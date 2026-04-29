@@ -1,230 +1,243 @@
-/* === AEM SECTION RESET — required for correct iframe sizing === */
+/* === AEM SECTION RESET (required for iframe sizing) === */
 main > div,
 main > .section,
 main > .section:first-of-type {
   margin: 0;
 }
+
 main > .section > div {
   max-width: none;
   padding: 0;
 }
+
 body {
   overflow: hidden;
 }
 
 /* === BRAND TOKENS === */
-/* Source: widget-work/design-tokens.json (fallback: true, from PALETTE) */
 main .find-where-to-buy {
-  --widget-accent: #2563eb;
-  --widget-accent-text: #fff;
-  --widget-surface: #fff;
-  --widget-border: #e0e0e0;
-  --widget-radius: 0.5rem;
-  --widget-fw-heading: 600;
-  --widget-letter-spacing: normal;
-  --widget-btn-transform: none;
-  --widget-btn-transition: opacity 0.15s ease;
-  --widget-secondary: #555555;
-  --widget-decorative: #6699cc;
-}
+  --gum-green: #009257;
+  --gum-green-accent: #2bb573;
+  --gum-green-dark: #007a49;
+  --gum-green-light: #e6f5ee;
+  --gum-text-dark: #272b29;
+  --gum-text-body: #464c4e;
+  --gum-text-muted: #6b7280;
+  --gum-bg: #f9fafb;
+  --gum-card-bg: #fff;
+  --gum-border: #e5e7eb;
+  --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-/* === LAYOUT === */
-main .find-where-to-buy {
-  font-family: inherit;
-  padding: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: var(--gum-font);
   background: transparent;
 }
 
+.gum-wtb-wrapper {
+  max-width: 100%;
+}
+
 /* === HEADER === */
-main .find-where-to-buy .wtb-header {
-  margin-bottom: 0.625rem;
-}
-
-main .find-where-to-buy .wtb-header h3 {
-  margin: 0 0 0.125rem;
-  font-size: 0.9375rem;
-  font-weight: var(--widget-fw-heading);
-  letter-spacing: var(--widget-letter-spacing);
-  line-height: 1.3;
-  color: var(--text-color, #1a1a1a);
-}
-
-main .find-where-to-buy .wtb-subtitle {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--widget-secondary);
-}
-
-/* === RETAILER LIST === */
-main .find-where-to-buy .retailer-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* === RETAILER CARD === */
-main .find-where-to-buy .retailer-card {
+.gum-wtb-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.625rem 0.75rem;
-  background: var(--widget-surface);
-  border: 1px solid var(--widget-border);
-  border-radius: var(--widget-radius);
-  transition: border-color 0.15s ease;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-main .find-where-to-buy .retailer-card:hover {
-  border-color: var(--widget-decorative);
-}
-
-/* === RETAILER INFO === */
-main .find-where-to-buy .retailer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
-  flex: 1;
-}
-
-main .find-where-to-buy .retailer-name {
-  font-size: 0.875rem;
-  font-weight: var(--widget-fw-heading);
-  line-height: 1.3;
-  color: var(--text-color, #1a1a1a);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* === BADGE === */
-main .find-where-to-buy .retailer-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  padding: 0.1875rem 0.4375rem;
-  border-radius: 0.25rem;
-  width: fit-content;
-}
-
-main .find-where-to-buy .retailer-badge .badge-icon {
-  display: inline-flex;
-  align-items: center;
-}
-
-main .find-where-to-buy .retailer-badge--online {
-  background: #eef4ff;
-  color: var(--widget-accent);
-}
-
-main .find-where-to-buy .retailer-badge--both {
-  background: #f0fdf4;
-  color: #16a34a;
-}
-
-/* === CTA BUTTON === */
-main .find-where-to-buy .cta-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.375rem 0.75rem;
-  background: var(--widget-accent);
-  color: var(--widget-accent-text);
-  border: none;
-  border-radius: 0.375rem;
-  font-size: 0.8125rem;
-  font-weight: var(--widget-fw-heading);
-  letter-spacing: var(--widget-letter-spacing);
-  text-transform: var(--widget-btn-transform);
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--widget-btn-transition);
-  white-space: nowrap;
+.gum-wtb-pin-icon {
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
-main .find-where-to-buy .cta-btn:hover {
-  opacity: 0.85;
+.gum-wtb-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  margin: 0;
 }
 
-main .find-where-to-buy .cta-btn:focus-visible {
-  outline: 2px solid var(--widget-accent);
-  outline-offset: 2px;
+.gum-wtb-count {
+  font-size: 13px;
+  color: var(--gum-text-muted);
+  margin-left: auto;
 }
 
-/* === DARK MODE — dual strategy (both required) === */
+/* === GRID === */
+.gum-wtb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
 
-/* 1. Media query: for standalone EDS preview (localhost:3000 / aem.page) */
+/* === RETAILER CARD === */
+.gum-retailer-card {
+  background: var(--gum-card-bg);
+  border: 1px solid var(--gum-border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.gum-retailer-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  transform: translateY(-3px);
+}
+
+.gum-retailer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gum-retailer-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  margin: 0;
+}
+
+/* === BADGE === */
+.gum-retailer-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.gum-badge-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.gum-retailer-type-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.gum-retailer-badge--online {
+  background: #eef4ff;
+  color: #2563eb;
+}
+
+.gum-retailer-badge--both {
+  background: var(--gum-green-light);
+  color: var(--gum-green);
+}
+
+/* === ACTIONS === */
+.gum-retailer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.gum-store-btn,
+.gum-store-btn:visited,
+.gum-store-btn:link {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--gum-green);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gum-store-btn:hover {
+  background: var(--gum-green-dark);
+  box-shadow: 0 2px 8px rgb(0 146 87 / 30%);
+}
+
+/* === EMPTY STATE === */
+.gum-wtb-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--gum-text-muted);
+  font-size: 14px;
+}
+
+/* === DARK MODE — media query for standalone EDS preview === */
 @media (prefers-color-scheme: dark) {
   body {
     background: transparent;
   }
 
   main .find-where-to-buy {
-    --widget-surface: #1e1e1e;
-    --widget-border: #333;
-    --widget-secondary: #aaa;
+    --gum-card-bg: #1e1e1e;
+    --gum-border: #333;
+    --gum-text-dark: #eee;
+    --gum-text-body: #bbb;
+    --gum-text-muted: #aaa;
     color: #eee;
   }
 
-  main .find-where-to-buy .wtb-header h3 {
-    color: #f0f0f0;
-  }
-
-  main .find-where-to-buy .retailer-name {
-    color: #f0f0f0;
-  }
-
-  main .find-where-to-buy .retailer-badge--online {
+  .gum-retailer-badge--online {
     background: rgba(37, 99, 235, 0.15);
     color: #60a5fa;
   }
 
-  main .find-where-to-buy .retailer-badge--both {
-    background: rgba(22, 163, 74, 0.15);
+  .gum-retailer-badge--both {
+    background: rgba(0, 146, 87, 0.15);
     color: #4ade80;
   }
 }
 
-/* 2. body.dark class: for Shadow DOM inside ChatGPT (set by aem-embed.js) */
+/* === DARK MODE — body.dark class for Shadow DOM inside ChatGPT === */
 body.dark {
   background: transparent;
 }
 
 body.dark main .find-where-to-buy {
-  --widget-surface: #1e1e1e;
-  --widget-border: #333;
-  --widget-secondary: #aaa;
+  --gum-card-bg: #1e1e1e;
+  --gum-border: #333;
+  --gum-text-dark: #eee;
+  --gum-text-body: #bbb;
+  --gum-text-muted: #aaa;
   color: #eee;
 }
 
-body.dark main .find-where-to-buy .wtb-header h3 {
-  color: #f0f0f0;
-}
-
-body.dark main .find-where-to-buy .retailer-name {
-  color: #f0f0f0;
-}
-
-body.dark main .find-where-to-buy .retailer-badge--online {
+body.dark .gum-retailer-badge--online {
   background: rgba(37, 99, 235, 0.15);
   color: #60a5fa;
 }
 
-body.dark main .find-where-to-buy .retailer-badge--both {
-  background: rgba(22, 163, 74, 0.15);
+body.dark .gum-retailer-badge--both {
+  background: rgba(0, 146, 87, 0.15);
   color: #4ade80;
 }
 
 /* === RESPONSIVE === */
-@media (width >= 480px) {
-  main .find-where-to-buy .retailer-card {
-    padding: 0.5rem 0.875rem;
+@media (max-width: 560px) {
+  .gum-wtb-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gum-store-btn {
+    width: 100%;
+    text-align: center;
   }
 }

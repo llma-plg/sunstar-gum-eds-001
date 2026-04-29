@@ -1,96 +1,73 @@
-/*
- * Search Products Widget
- * Horizontal scrollable carousel of GUM oral care product cards.
- * Renders inside ChatGPT/Claude via bridge, or standalone in EDS preview.
- */
-
 const SAMPLE_DATA = [
   {
-    name: 'GUM\u00ae Deep Clean Technique\u00ae Toothbrush',
-    description: 'Ultra-fine tapered bristles provide a deeper clean below the gumline. Quad-Grip\u00ae handle promotes perfect brushing technique.',
+    name: 'GUM® Deep Clean Technique® Toothbrush',
+    description: 'Ultra-fine tapered bristles provide a deeper clean below the gumline. Quad-Grip® handle promotes perfect brushing technique.',
     category: 'toothbrushes',
     image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--0a295760-5530-4008-a103-a99e6f050496/00070942125895-524-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
-    name: 'GUM\u00ae Sensitive Clean Technique\u00ae Toothbrush',
-    description: 'Gentle bristles designed for sensitive gums. Quad-Grip\u00ae handle for optimal brushing technique.',
+    name: 'GUM® Sensitive Clean Technique® Toothbrush',
+    description: 'Gentle bristles designed for sensitive gums. Quad-Grip® handle for optimal brushing technique.',
     category: 'toothbrushes',
     image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--cc09aad6-d5b1-4c20-883f-604a8809cf15/00070942007412-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
-    name: 'GUM\u00ae Sonic Powered Toothbrush',
+    name: 'GUM® Sonic Powered Toothbrush',
     description: 'Powerful sonic technology for a thorough clean. Removes more plaque than a manual toothbrush.',
     category: 'toothbrushes',
     image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--f5ccd9db-10f3-4785-8550-f70405cb29bf/00070942005432-4100-hero.jpg?width=480&preferwebp=true&quality=85',
   },
   {
-    name: 'GUM\u00ae Crayola\u2122 Kids\' Twistables\u2122 Flossers',
+    name: 'GUM® Crayola™ Kids\' Twistables™ Flossers',
     description: 'Fun Crayola-themed flossers make flossing exciting for kids. Easy-grip handle designed for small hands.',
     category: 'dental-floss',
     image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--35c1f8d8-d82e-4928-bf3a-085bb9b9feb8/859rq-product-packaging-flossers-crayols-twistables-hero-cleanedup-us.jpg?width=480&preferwebp=true&quality=85',
   },
   {
-    name: 'GUM\u00ae Soft-Picks\u00ae Original',
+    name: 'GUM® Soft-Picks® Original',
     description: 'Flexible rubber bristles gently clean between teeth. Comfortable and easy to use.',
     category: 'interdental',
     image_url: 'https://www.sunstargum.com/adobe/dynamicmedia/deliver/dm-aid--a9a60fce-c215-4647-93d2-af40c8df6ae0/6323r-product-packaging-btc-softpicks-original-hero-cleanedup-us.jpg?width=480&preferwebp=true&quality=85',
   },
 ];
 
-function renderProducts(block, products, bridge) {
-  const carousel = document.createElement('div');
-  carousel.className = 'carousel-track';
+function createProductCard(product, bridge) {
+  const card = document.createElement('div');
+  card.className = 'gum-product-card';
 
-  products.slice(0, 5).forEach((product) => {
-    const card = document.createElement('div');
-    card.className = 'card';
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'gum-product-image-wrap';
+  const img = document.createElement('img');
+  img.src = product.image_url || '';
+  img.alt = product.name || 'Product image';
+  img.loading = 'lazy';
+  img.addEventListener('load', () => img.classList.add('loaded'));
+  imgWrap.appendChild(img);
 
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'card-img';
-    const img = document.createElement('img');
-    img.src = product.image_url || '';
-    img.alt = product.name || 'Product image';
-    img.loading = 'lazy';
-    imgWrap.appendChild(img);
-    card.appendChild(imgWrap);
+  const info = document.createElement('div');
+  info.className = 'gum-product-info';
 
-    const body = document.createElement('div');
-    body.className = 'card-body';
+  const name = document.createElement('h3');
+  name.className = 'gum-product-name';
+  name.textContent = product.name || '';
 
-    // Category badge
-    if (product.category) {
-      const badge = document.createElement('span');
-      badge.className = 'card-badge';
-      badge.textContent = product.category.replace(/-/g, ' ');
-      body.appendChild(badge);
-    }
+  const cta = document.createElement('button');
+  cta.className = 'gum-product-cta';
+  cta.textContent = 'More Details';
 
-    const title = document.createElement('h3');
-    title.className = 'card-title';
-    title.textContent = product.name || '';
-    body.appendChild(title);
+  info.appendChild(name);
+  info.appendChild(cta);
 
-    const desc = document.createElement('p');
-    desc.className = 'card-desc';
-    desc.textContent = product.description || '';
-    body.appendChild(desc);
+  card.appendChild(imgWrap);
+  card.appendChild(info);
 
-    card.appendChild(body);
-
-    const btn = document.createElement('button');
-    btn.className = 'cta-btn';
-    btn.textContent = 'View Details';
+  card.addEventListener('click', () => {
     if (bridge) {
-      btn.addEventListener('click', () => {
-        bridge.sendMessage(`Use get-product-details to show full details for "${product.name}"`);
-      });
+      bridge.sendMessage(`Use get-product-details to show full details for "${product.name}"`);
     }
-    card.appendChild(btn);
-
-    carousel.appendChild(card);
   });
 
-  block.appendChild(carousel);
+  return card;
 }
 
 export default async function decorate(block, bridge) {
@@ -110,13 +87,62 @@ export default async function decorate(block, bridge) {
   }
 
   block.textContent = '';
-  renderProducts(block, items, bridge);
+
+  if (!items || items.length === 0) {
+    block.innerHTML = '<p class="gum-products-empty">No products available.</p>';
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gum-products-wrapper';
+
+  const carousel = document.createElement('div');
+  carousel.className = 'gum-products-carousel';
+
+  items.forEach((product) => {
+    carousel.appendChild(createProductCard(product, bridge));
+  });
+
+  wrapper.appendChild(carousel);
+
+  const leftArrow = document.createElement('button');
+  leftArrow.className = 'gum-carousel-arrow left';
+  leftArrow.innerHTML = '‹';
+  leftArrow.setAttribute('aria-label', 'Previous');
+
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'gum-carousel-arrow right';
+  rightArrow.innerHTML = '›';
+  rightArrow.setAttribute('aria-label', 'Next');
+
+  const scrollAmount = 250;
+
+  leftArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+
+  rightArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+
+  const updateArrows = () => {
+    leftArrow.disabled = carousel.scrollLeft <= 0;
+    rightArrow.disabled = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 2;
+  };
+
+  carousel.addEventListener('scroll', updateArrows, { passive: true });
+  setTimeout(updateArrows, 100);
+
+  wrapper.appendChild(leftArrow);
+  wrapper.appendChild(rightArrow);
+  block.appendChild(wrapper);
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
+    let resizeTimer;
     const ro = new ResizeObserver(() => {
-      clearTimeout(ro._t);
-      ro._t = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
     });
     ro.observe(block);
   }

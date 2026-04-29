@@ -1,19 +1,3 @@
-/* === BRAND TOKENS === */
-/* Source: widget-work/design-tokens.json */
-main .search-products {
-  --widget-accent: #2563eb;
-  --widget-accent-text: #fff;
-  --widget-surface: #fff;
-  --widget-border: #e0e0e0;
-  --widget-radius: 0.5rem;
-  --widget-fw-heading: 600;
-  --widget-letter-spacing: normal;
-  --widget-btn-transform: none;
-  --widget-btn-transition: opacity 0.15s ease;
-  --widget-secondary: #555;
-  --widget-decorative: #6699cc;
-}
-
 /* === AEM SECTION RESET (required for iframe sizing) === */
 main > div,
 main > .section,
@@ -30,148 +14,179 @@ body {
   overflow: hidden;
 }
 
-/* === LAYOUT === */
+/* === BRAND TOKENS === */
 main .search-products {
-  font-family: inherit;
-  padding: 0.75rem;
-  box-sizing: border-box;
-  background: transparent;
-}
+  --gum-green: #009257;
+  --gum-green-accent: #2bb573;
+  --gum-text-dark: #272b29;
+  --gum-text-muted: #6b7280;
+  --gum-bg: #fff;
+  --gum-card-bg: #fff;
+  --gum-border: #e5e7eb;
+  --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-/* === CAROUSEL TRACK === */
-main .search-products .carousel-track {
-  display: flex;
-  gap: 0.75rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--widget-border) transparent;
-  padding-bottom: 0.25rem;
-}
-
-main .search-products .carousel-track::-webkit-scrollbar {
-  height: 4px;
-}
-
-main .search-products .carousel-track::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-main .search-products .carousel-track::-webkit-scrollbar-thumb {
-  background: var(--widget-border);
-  border-radius: 2px;
-}
-
-/* === CARDS === */
-main .search-products .card {
-  flex: 0 0 160px;
-  min-width: 160px;
-  background: var(--widget-surface);
-  border: 1px solid var(--widget-border);
-  border-radius: var(--widget-radius);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  scroll-snap-align: start;
-}
-
-/* === IMAGES === */
-main .search-products .card-img {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #f5f5f5;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--gum-font);
+  background: transparent;
+}
+
+.gum-products-wrapper {
+  position: relative;
+  max-width: 100%;
+}
+
+.gum-products-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 8px 4px 16px;
+}
+
+.gum-products-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* === NAVIGATION ARROWS === */
+.gum-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--gum-border);
+  background: var(--gum-card-bg);
+  color: var(--gum-text-dark);
+  font-size: 18px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  z-index: 2;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  padding: 0;
+  line-height: 1;
 }
 
-main .search-products .card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.gum-carousel-arrow:hover {
+  background: var(--gum-green);
+  color: #fff;
+  border-color: var(--gum-green);
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 16%);
 }
 
-/* === CARD BODY === */
-main .search-products .card-body {
-  padding: 0.625rem;
-  flex: 1;
+.gum-carousel-arrow.left {
+  left: -6px;
+}
+
+.gum-carousel-arrow.right {
+  right: -6px;
+}
+
+.gum-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* === PRODUCT CARD === */
+.gum-product-card {
+  flex: 0 0 230px;
+  scroll-snap-align: start;
+  background: var(--gum-card-bg);
+  border: 1px solid var(--gum-border);
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-}
-
-/* === CATEGORY BADGE === */
-main .search-products .card-badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  text-transform: capitalize;
-  color: var(--widget-accent-text);
-  background: var(--widget-accent);
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-  line-height: 1.4;
-}
-
-/* === CARD TITLE === */
-main .search-products .card-title {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: var(--widget-fw-heading);
-  letter-spacing: var(--widget-letter-spacing);
-  line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* === CARD DESCRIPTION === */
-main .search-products .card-desc {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--widget-secondary);
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* === CTA BUTTON === */
-main .search-products .cta-btn {
-  display: block;
-  width: calc(100% - 1.25rem);
-  margin: auto 0.625rem 0.625rem;
-  padding: 0.4rem 0.75rem;
-  background: var(--widget-accent);
-  color: var(--widget-accent-text);
-  border: none;
-  border-radius: 0.375rem;
-  font-size: 0.8125rem;
-  font-weight: var(--widget-fw-heading);
-  letter-spacing: var(--widget-letter-spacing);
-  text-transform: var(--widget-btn-transform);
-  text-align: center;
   cursor: pointer;
-  transition: var(--widget-btn-transition);
-  text-decoration: none;
-  font-family: inherit;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.gum-product-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  transform: translateY(-3px);
+}
+
+.gum-product-image-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  box-sizing: border-box;
+}
+
+.gum-product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gum-product-image-wrap img.loaded {
+  opacity: 1;
+}
+
+.gum-product-info {
+  padding: 16px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  flex: 1;
+}
+
+.gum-product-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  text-transform: uppercase;
   line-height: 1.4;
+  margin: 0;
+  letter-spacing: 0.02em;
 }
 
-main .search-products .cta-btn:hover {
-  opacity: 0.85;
+.gum-product-cta {
+  padding: 7px 20px;
+  background: var(--gum-green);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: auto;
 }
 
-main .search-products .cta-btn:focus-visible {
-  outline: 2px solid var(--widget-accent);
-  outline-offset: 2px;
+.gum-product-cta:hover {
+  background: #007a49;
+  box-shadow: 0 2px 8px rgb(0 146 87 / 30%);
+}
+
+/* === EMPTY STATE === */
+.gum-products-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--gum-text-muted);
+  font-size: 14px;
 }
 
 /* === DARK MODE — media query for standalone EDS preview === */
@@ -181,22 +196,15 @@ main .search-products .cta-btn:focus-visible {
   }
 
   main .search-products {
-    --widget-surface: #1e1e1e;
-    --widget-border: #333;
-    --widget-secondary: #aaa;
+    --gum-card-bg: #1e1e1e;
+    --gum-border: #333;
+    --gum-text-dark: #eee;
+    --gum-text-muted: #aaa;
     color: #eee;
   }
 
-  main .search-products .card-img {
+  .gum-product-image-wrap {
     background: #2a2a2a;
-  }
-
-  main .search-products .card-title {
-    color: #eee;
-  }
-
-  main .search-products .carousel-track {
-    scrollbar-color: #444 transparent;
   }
 }
 
@@ -206,28 +214,24 @@ body.dark {
 }
 
 body.dark main .search-products {
-  --widget-surface: #1e1e1e;
-  --widget-border: #333;
-  --widget-secondary: #aaa;
+  --gum-card-bg: #1e1e1e;
+  --gum-border: #333;
+  --gum-text-dark: #eee;
+  --gum-text-muted: #aaa;
   color: #eee;
 }
 
-body.dark main .search-products .card-img {
+body.dark .gum-product-image-wrap {
   background: #2a2a2a;
 }
 
-body.dark main .search-products .card-title {
-  color: #eee;
-}
-
-body.dark main .search-products .carousel-track {
-  scrollbar-color: #444 transparent;
-}
-
 /* === RESPONSIVE === */
-@media (min-width: 480px) {
-  main .search-products .card {
+@media (max-width: 480px) {
+  .gum-product-card {
     flex: 0 0 180px;
-    min-width: 180px;
+  }
+
+  .gum-product-name {
+    font-size: 11px;
   }
 }

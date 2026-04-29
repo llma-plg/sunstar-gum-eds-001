@@ -1,5 +1,9 @@
-// Sample data for standalone/preview mode.
-// In production, data comes dynamically from bridge.toolResult.
+const CART_SVG = '<svg class="gum-retailer-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+
+const STORE_SVG = '<svg class="gum-retailer-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
+
+const PIN_SVG = '<svg class="gum-wtb-pin-icon" viewBox="0 0 24 24" fill="#009257"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
+
 const SAMPLE_DATA = [
   { name: 'Amazon', type: 'online', url: 'https://www.amazon.com/stores/Sunstar/page/D0BAAE16-0B5A-4D8D-A955-ACA08C2FCA2F' },
   { name: 'Walmart', type: 'online', url: 'https://www.walmart.com/brand/gum/10000242' },
@@ -7,114 +11,65 @@ const SAMPLE_DATA = [
   { name: 'Walgreens', type: 'both', url: 'https://www.walgreens.com/store/c/productlist/N=360523-301733' },
   { name: 'CVS', type: 'both', url: 'https://www.cvs.com/shop/brand-shop/g/gum' },
   { name: 'Kroger', type: 'both', url: 'https://www.kroger.com/pl/oral-care/21003?brandName=GUM&fulfillment=all' },
-  { name: 'Albertsons', type: 'both', url: 'https://www.albertsons.com/shop/aisles/personal-care-health/oral-hygiene.html?brand=GUM' },
-  { name: 'Safeway', type: 'both', url: 'https://www.safeway.com/shop/search-results.html?q=gum%20brand&brand=GUM' },
-  { name: 'Meijer', type: 'both', url: 'https://www.meijer.com/shopping/departments/beauty-personal-care/oral-care/dental-floss-picks.html?brand=Gum' },
-  { name: 'H-E-B', type: 'both', url: 'https://www.heb.com/category/shop/health-beauty/oral-hygiene/floss/490096/490422?filter=brand%3AGUM' },
-  { name: 'Publix', type: 'both', url: 'https://www.publix.com/c/oral-care/88b324c1-9ab6-42a1-aa5a-d7b7edf2f664?facet=facetNationalBrands%3A%3AGUM' },
-  { name: 'Jewel-Osco', type: 'both', url: 'https://www.jewelosco.com/shop/aisles/personal-care-health/oral-hygiene.html?brand=GUM' },
 ];
 
-/**
- * Returns a short, human-readable label for a retailer type.
- * @param {string} type - 'online', 'both', or 'physical'
- * @returns {string}
- */
 function typeLabel(type) {
   if (type === 'online') return 'Online';
   if (type === 'both') return 'In-Store & Online';
   return 'In-Store';
 }
 
-/**
- * Returns an SVG icon string for the retailer type.
- * Uses a simple storefront or cart icon.
- * @param {string} type
- * @returns {string}
- */
 function typeIcon(type) {
-  if (type === 'online') {
-    // Cart icon
-    return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-  }
-  // Storefront icon for both/physical
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
+  return type === 'online' ? CART_SVG : STORE_SVG;
 }
 
-/**
- * Renders the retailer list into the block.
- * @param {Element} block
- * @param {Array} retailers
- * @param {object|undefined} bridge
- */
-function renderRetailers(block, retailers, bridge) {
-  block.textContent = '';
+function createRetailerCard(retailer, bridge) {
+  const card = document.createElement('div');
+  card.className = 'gum-retailer-card';
 
-  // Header section with icon
-  const header = document.createElement('div');
-  header.className = 'wtb-header';
+  const top = document.createElement('div');
+  top.className = 'gum-retailer-top';
 
-  const heading = document.createElement('h3');
-  heading.textContent = 'Where to Buy GUM Products';
-  header.appendChild(heading);
+  const name = document.createElement('h3');
+  name.className = 'gum-retailer-name';
+  name.textContent = retailer.name;
 
-  const subtitle = document.createElement('p');
-  subtitle.className = 'wtb-subtitle';
-  subtitle.textContent = `${retailers.length} retailers available`;
-  header.appendChild(subtitle);
+  const badge = document.createElement('span');
+  badge.className = `gum-retailer-badge gum-retailer-badge--${retailer.type === 'online' ? 'online' : 'both'}`;
+  const iconSpan = document.createElement('span');
+  iconSpan.className = 'gum-badge-icon';
+  iconSpan.innerHTML = typeIcon(retailer.type);
+  badge.appendChild(iconSpan);
+  const badgeText = document.createElement('span');
+  badgeText.textContent = typeLabel(retailer.type);
+  badge.appendChild(badgeText);
 
-  block.appendChild(header);
+  top.appendChild(name);
+  top.appendChild(badge);
 
-  // Retailer list
-  const list = document.createElement('div');
-  list.className = 'retailer-list';
+  const actions = document.createElement('div');
+  actions.className = 'gum-retailer-actions';
 
-  retailers.forEach((retailer) => {
-    const card = document.createElement('div');
-    card.className = 'retailer-card';
+  const cta = document.createElement('a');
+  cta.className = 'gum-store-btn';
+  cta.textContent = 'Shop Now';
+  cta.href = retailer.url;
+  cta.target = '_blank';
+  cta.rel = 'noopener noreferrer';
 
-    // Left section: name and badge
-    const info = document.createElement('div');
-    info.className = 'retailer-info';
+  if (bridge) {
+    cta.addEventListener('click', (e) => {
+      e.preventDefault();
+      bridge.openLink(retailer.url);
+    });
+  }
 
-    const name = document.createElement('span');
-    name.className = 'retailer-name';
-    name.textContent = retailer.name;
-    info.appendChild(name);
+  actions.appendChild(cta);
 
-    const badge = document.createElement('span');
-    badge.className = `retailer-badge retailer-badge--${retailer.type === 'online' ? 'online' : 'both'}`;
-    const iconSpan = document.createElement('span');
-    iconSpan.className = 'badge-icon';
-    iconSpan.innerHTML = typeIcon(retailer.type);
-    badge.appendChild(iconSpan);
-    const badgeText = document.createElement('span');
-    badgeText.textContent = typeLabel(retailer.type);
-    badge.appendChild(badgeText);
-    info.appendChild(badge);
+  card.appendChild(top);
+  card.appendChild(actions);
 
-    card.appendChild(info);
-
-    // Right section: CTA button
-    const cta = document.createElement('a');
-    cta.className = 'cta-btn';
-    cta.textContent = 'Shop Now';
-    cta.href = retailer.url;
-    cta.target = '_blank';
-    cta.rel = 'noopener noreferrer';
-
-    if (bridge) {
-      cta.addEventListener('click', (e) => {
-        e.preventDefault();
-        bridge.openLink(retailer.url);
-      });
-    }
-
-    card.appendChild(cta);
-    list.appendChild(card);
-  });
-
-  block.appendChild(list);
+  return card;
 }
 
 export default async function decorate(block, bridge) {
@@ -126,22 +81,57 @@ export default async function decorate(block, bridge) {
     if (isPreview) {
       retailers = SAMPLE_DATA;
     } else {
-      // structuredContent is { items: [...] } — key from action handler
       const { structuredContent } = await bridge.toolResult;
       retailers = structuredContent?.items || [];
     }
   } else {
-    // Standalone EDS preview
     retailers = SAMPLE_DATA;
   }
 
-  renderRetailers(block, retailers, bridge);
+  block.textContent = '';
+
+  if (!retailers || retailers.length === 0) {
+    block.innerHTML = '<p class="gum-wtb-empty">No retailers found.</p>';
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gum-wtb-wrapper';
+
+  // Header
+  const header = document.createElement('div');
+  header.className = 'gum-wtb-header';
+  header.innerHTML = PIN_SVG;
+
+  const title = document.createElement('h2');
+  title.className = 'gum-wtb-title';
+  title.textContent = 'Where to Buy GUM Products';
+
+  const count = document.createElement('span');
+  count.className = 'gum-wtb-count';
+  count.textContent = `${retailers.length} retailers`;
+
+  header.appendChild(title);
+  header.appendChild(count);
+  wrapper.appendChild(header);
+
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'gum-wtb-grid';
+
+  retailers.forEach((retailer) => {
+    grid.appendChild(createRetailerCard(retailer, bridge));
+  });
+
+  wrapper.appendChild(grid);
+  block.appendChild(wrapper);
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
+    let resizeTimer;
     const ro = new ResizeObserver(() => {
-      clearTimeout(ro._t);
-      ro._t = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
     });
     ro.observe(block);
   }
