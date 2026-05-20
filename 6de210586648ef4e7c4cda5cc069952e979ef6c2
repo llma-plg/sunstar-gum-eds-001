@@ -6,10 +6,10 @@
   "timestamp": "2026-05-20T14:48:24+03:00",
   "detection": {
     "ai_assisted": true,
-    "method": "heuristic",
+    "method": "editor_hook",
     "tool": "cursor",
     "model": "",
-    "confidence": 0.95
+    "confidence": 1.0
   },
   "stats": {
     "total_additions": 5,
@@ -24,7 +24,9 @@
       "ai_additions": 5,
       "human_additions": 0,
       "ai_deletions": 0,
-      "human_deletions": 0
+      "human_deletions": 0,
+      "ai_lines": "1-5",
+      "human_lines": ""
     }
   }
 }
