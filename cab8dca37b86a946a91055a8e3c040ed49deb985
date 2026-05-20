@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "cab8dca37b86a946a91055a8e3c040ed49deb985",
+  "author": "chiriac@adobe.com",
+  "timestamp": "2026-05-20T14:22:42+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "heuristic",
+    "tool": "claude-code",
+    "model": "",
+    "confidence": 0.95
+  },
+  "stats": {
+    "total_additions": 0,
+    "total_deletions": 29,
+    "ai_additions": 0,
+    "ai_deletions": 29,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "find-dealer-preview.html": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 29,
+      "human_deletions": 0
+    }
+  }
+}
