@@ -1,191 +1,167 @@
-// Sample data for standalone EDS preview (no bridge).
+// Sample data for standalone/preview mode matching outputSchema structure.
 // In production, data comes dynamically from bridge.toolResult.
-const SAMPLE_DEALERS = [
+const SAMPLE_DATA = [
   {
-    name: 'Dacia Bucuresti Nord',
-    address: 'Șoseaua București-Ploiești 172-176, Sector 1, București 013685',
-    phone: '+40 21 232 4567',
-    services: ['Sales', 'Service', 'Parts']
+    name: "Dacia Bucharest Central",
+    address: "Calea Victoriei 155, București 010073",
+    distance: "2.3 km",
+    phone: "+40 21 123 4567",
+    services: [
+      { name: "Sales" },
+      { name: "Service" },
+      { name: "Parts" }
+    ]
   },
   {
-    name: 'Dacia Bucuresti Sud',
-    address: 'Calea Vitan 231, Sector 3, București 031295',
-    phone: '+40 21 326 7890',
-    services: ['Sales', 'Service', 'Test Drive']
-  },
-  {
-    name: 'Dacia Militari',
-    address: 'Bulevardul Iuliu Maniu 558, Sector 6, București 061125',
-    phone: '+40 21 430 1234',
-    services: ['Sales', 'Parts', 'Financing']
+    name: "Dacia Cluj Premium",
+    address: "Strada Memorandumului 28, Cluj-Napoca 400114",
+    distance: "156 km",
+    phone: "+40 264 123 456",
+    services: [
+      { name: "Sales" },
+      { name: "Service" }
+    ]
   }
 ];
 
+// Brand palette from BuildWidgetRequest.
+const PALETTE = ['#646b52','#555555','#6699cc'];
+
+function getThemedCardBg(palette) {
+  if (!palette || !palette[0]) return null;
+  let hex = palette[0].replace('#', '');
+  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  if (hex.length !== 6) return null;
+  let [r, g, b] = [parseInt(hex.slice(0,2),16), parseInt(hex.slice(2,4),16), parseInt(hex.slice(4,6),16)];
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return null;
+  const lum = (c) => { const s=c/255; return s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4); };
+  const relLum = (r,g,b) => 0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
+  if (relLum(r,g,b) <= 0.12) return { bg: `#${hex}`, fg: '#ffffff' };
+  let lo=0, hi=1;
+  for (let i=0; i<20; i++) {
+    const m=(lo+hi)/2;
+    if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
+  }
+  const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
+  return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
+}
+
+const theme = getThemedCardBg(PALETTE);
+
 export default async function decorate(block, bridge) {
-  let dealers = [];
-  let initialLocation = '';
+  let stores;
 
   if (bridge) {
     bridge.applyHostStyles();
     const isPreview = bridge.hostContext?.preview === true;
-    
     if (isPreview) {
-      dealers = SAMPLE_DEALERS;
+      stores = SAMPLE_DATA;
     } else {
-      // Production mode — data comes from the MCP tool result
       const { structuredContent } = await bridge.toolResult;
-      dealers = structuredContent?.dealers || [];
+      stores = structuredContent?.dealers || [];
     }
   } else {
-    // Standalone EDS preview
-    dealers = SAMPLE_DEALERS;
+    stores = SAMPLE_DATA;
   }
 
   block.textContent = '';
-  render(block, dealers, initialLocation, bridge);
+
+  if (stores.length === 0) {
+    renderEmptyState(block, bridge);
+  } else {
+    renderStores(block, stores, bridge);
+  }
 
   if (bridge) {
-    // Report size and observe changes
-    const reportSizeDebounced = () => {
-      clearTimeout(reportSizeDebounced._timer);
-      reportSizeDebounced._timer = setTimeout(() => {
-        bridge.reportSize(block.offsetWidth, block.offsetHeight);
-      }, 150);
-    };
-
-    reportSizeDebounced();
-    const ro = new ResizeObserver(reportSizeDebounced);
+    bridge.reportSize(block.offsetWidth, block.offsetHeight);
+    let resizeTimer;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
+    });
     ro.observe(block);
   }
 }
 
-function render(block, dealers, location, bridge) {
-  // Create search form
-  const form = document.createElement('div');
-  form.className = 'search-form';
+function renderEmptyState(block, bridge) {
+  const card = document.createElement('div');
+  card.className = 'search-card';
+  card.style.cssText = `background:${theme?.bg ?? '#1a3a5c'};color:${theme?.fg ?? '#fff'}`;
 
-  const formGroup = document.createElement('div');
-  formGroup.className = 'form-group';
+  const pinIcon = document.createElement('div');
+  pinIcon.className = 'pin-icon';
+  pinIcon.innerHTML = '📍';
+  card.appendChild(pinIcon);
 
-  const label = document.createElement('label');
-  label.textContent = 'Location';
-  label.htmlFor = 'dealer-location-input';
-  formGroup.appendChild(label);
+  const heading = document.createElement('h2');
+  heading.textContent = 'Find a store near you';
+  card.appendChild(heading);
 
   const input = document.createElement('input');
   input.type = 'text';
-  input.id = 'dealer-location-input';
-  input.placeholder = 'e.g., Bucuresti, Cluj-Napoca';
-  input.value = location;
-  formGroup.appendChild(input);
+  input.placeholder = 'Enter ZIP code...';
+  input.className = 'search-input';
+  input.setAttribute('aria-label', 'Enter ZIP code or city');
+  card.appendChild(input);
 
-  form.appendChild(formGroup);
-
-  const searchBtn = document.createElement('button');
-  searchBtn.className = 'search-btn';
-  searchBtn.textContent = 'Find Dealers';
-  
+  const button = document.createElement('button');
+  button.textContent = 'Search';
+  button.className = 'search-button';
   if (bridge) {
-    searchBtn.addEventListener('click', () => {
-      const locationValue = input.value.trim();
-      if (locationValue) {
-        bridge.sendMessage(`Find Dacia dealers near ${locationValue}`);
-      }
-    });
-
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        const locationValue = input.value.trim();
-        if (locationValue) {
-          bridge.sendMessage(`Find Dacia dealers near ${locationValue}`);
-        }
+    button.addEventListener('click', () => {
+      const location = input.value.trim();
+      if (location) {
+        bridge.sendMessage(`Find Dacia dealers near ${location}`);
       }
     });
   }
-  
-  form.appendChild(searchBtn);
-  block.appendChild(form);
+  card.appendChild(button);
 
-  // Create dealers list
-  const dealersList = document.createElement('div');
-  dealersList.className = 'dealers-list';
-
-  if (dealers && dealers.length > 0) {
-    dealers.forEach(dealer => {
-      const card = createDealerCard(dealer, bridge);
-      dealersList.appendChild(card);
-    });
-  } else {
-    const emptyState = document.createElement('div');
-    emptyState.className = 'empty-state';
-    emptyState.textContent = 'Enter a location to find nearby Dacia dealers';
-    dealersList.appendChild(emptyState);
-  }
-
-  block.appendChild(dealersList);
+  block.appendChild(card);
 }
 
-function createDealerCard(dealer, bridge) {
-  const card = document.createElement('div');
-  card.className = 'dealer-card';
+function renderStores(block, stores, bridge) {
+  const container = document.createElement('div');
+  container.className = 'stores-container';
 
-  const name = document.createElement('h3');
-  name.className = 'dealer-name';
-  name.textContent = dealer.name;
-  card.appendChild(name);
+  const displayStores = stores.slice(0, 2);
 
-  if (dealer.address) {
-    const address = document.createElement('p');
-    address.className = 'dealer-address';
-    address.textContent = dealer.address;
+  displayStores.forEach(store => {
+    const card = document.createElement('div');
+    card.className = 'store-card';
+    card.style.cssText = `background:${theme?.bg ?? '#1a3a5c'};color:${theme?.fg ?? '#fff'}`;
+
+    const pinCircle = document.createElement('div');
+    pinCircle.className = 'pin-circle';
+    pinCircle.textContent = '📍';
+    card.appendChild(pinCircle);
+
+    const name = document.createElement('div');
+    name.className = 'store-name';
+    name.textContent = store.name || '';
+    card.appendChild(name);
+
+    const address = document.createElement('div');
+    address.className = 'store-address';
+    address.textContent = store.address || '';
     card.appendChild(address);
-  }
 
-  if (dealer.phone) {
-    const phone = document.createElement('p');
-    phone.className = 'dealer-phone';
-    phone.textContent = dealer.phone;
-    card.appendChild(phone);
-  }
-
-  if (dealer.services && dealer.services.length > 0) {
-    const servicesContainer = document.createElement('div');
-    servicesContainer.className = 'dealer-services';
-    
-    dealer.services.forEach(service => {
-      const badge = document.createElement('span');
-      badge.className = 'service-badge';
-      badge.textContent = service;
-      servicesContainer.appendChild(badge);
-    });
-    
-    card.appendChild(servicesContainer);
-  }
-
-  if (bridge) {
-    const actionsContainer = document.createElement('div');
-    actionsContainer.className = 'dealer-actions';
-
-    const contactBtn = document.createElement('button');
-    contactBtn.className = 'dealer-cta';
-    contactBtn.textContent = 'Contact';
-    contactBtn.addEventListener('click', () => {
-      bridge.sendMessage(`Tell me more about ${dealer.name}`);
-    });
-    actionsContainer.appendChild(contactBtn);
-
-    if (dealer.address) {
-      const directionsBtn = document.createElement('button');
-      directionsBtn.className = 'dealer-cta';
-      directionsBtn.textContent = 'Directions';
-      directionsBtn.addEventListener('click', () => {
-        bridge.sendMessage(`Get directions to ${dealer.name} at ${dealer.address}`);
-      });
-      actionsContainer.appendChild(directionsBtn);
+    if (store.phone) {
+      const phone = document.createElement('div');
+      phone.className = 'store-phone';
+      phone.textContent = store.phone;
+      card.appendChild(phone);
     }
 
-    card.appendChild(actionsContainer);
-  }
+    if (store.services && store.services.length > 0) {
+      const services = document.createElement('div');
+      services.className = 'store-services';
+      services.textContent = store.services.map(s => s.name).join(' • ');
+      card.appendChild(services);
+    }
 
-  return card;
+    container.appendChild(card);
+  });
+
+  block.appendChild(container);
 }
